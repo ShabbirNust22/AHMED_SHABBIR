@@ -9,8 +9,10 @@ import pandas as pd
 import numpy as np
 from pycaret.classification import *
 from PIL import Image
+from sklearn.pipeline import Pipeline
+import pickle 
 
-st.set_page_config(page_title="Web Dashboard for TL Faults Predictions",page_icon="🧊")
+st.set_page_config(page_title="An Intelligent TL Faults Analysis",page_icon="🧊")
 ################################################################################### M A I N    P A G E ############################
 Side=st.sidebar.selectbox("PROJECT DETAILS: ",('Main Page','Data Visualizations','Prediction Results', 'Real Time Predictions'))
 if Side=="Main Page":
@@ -33,11 +35,14 @@ if Side=="Main Page":
 ################################################################# 2nd selection ######################################################  
 ################################################################# 2nd selection ######################################################  
 ################################################################# 2nd selection ######################################################
+
 if Side=="Data Visualizations":
+
     fig = go.Figure()
 #https://plotly.com/python/subplots/
-    st.sidebar.subheader("Choose Fault Resistance")
-    option = st.sidebar.radio('Fault Resistance',['0.1 Ohm','0.001 Ohm'])
+    #st.sidebar.subheader("Choose Fault Resistance")
+
+    option = st.sidebar.radio('Choose Fault Resistance',['0.1 Ohm','0.001 Ohm'])
     #############################################################################
     if option=="0.1 Ohm":
 
@@ -102,6 +107,7 @@ if Side=="Data Visualizations":
         st.plotly_chart(fig,use_container_width=True)
     #######################################################################################################################################    
         option2 = st.sidebar.radio('Choose Phases (A, B or C)',['Phase: A','Phase: B','Phase: C'])
+            
         if option2 == 'Phase: A':
     #         fig = make_subplots(rows=2, cols=1)
     #         fig.append_trace(go.Scatter(x=f['Domain'],y=f[' Va'],name='Va (Volts)'), row=1, col=1)
@@ -117,12 +123,23 @@ if Side=="Data Visualizations":
             )
 
             # Add traces
-            fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Va'],name='Va'), row=1, col=1)
-            fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ia'],name='Ia'), row=2, col=1)
-
+            if st.sidebar.checkbox("Show Transient Analysis", False):
+                st.subheader("Approximate Transient Analysis:")
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ia'],name='Ia'), row=1, col=1)
+                fig.add_vline(x=0.501, line_width=3, line_dash="dash", line_color="red")
+                fig.add_annotation(x=0.57, y=1.989, text="Subtransient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.64, line_width=3, line_dash="dash", line_color="black")
+                fig.add_annotation(x=0.75, y=1.989, text="Transient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.85675, line_width=3, line_dash="dash", line_color="green")
+                fig.add_annotation(x=0.928, y=1.989, text="Steady State", showarrow=False, arrowhead=1)
+            else:
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ia'],name='Ia'), row=1, col=1)
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Va'],name='Va'), row=2, col=1)
+                
+                
             # Update xaxis properties
-            fig.update_xaxes(title_text="Volts", row=1, col=1)
-            fig.update_xaxes(title_text="Amp", row=2, col=1)
+            fig.update_xaxes(title_text="Amp", row=1, col=1)
+            fig.update_xaxes(title_text="Volts", row=2, col=1)
 
 
             # Update yaxis properties
@@ -149,13 +166,24 @@ if Side=="Data Visualizations":
                 #,subplot_titles=("Va vs Time", "Ia Vs Time")
             )
 
-            # Add traces
-            fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Vb'],name='Vb'), row=1, col=1)
-            fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ib'],name='Ib'), row=2, col=1)
-
+                        # Add traces
+            if st.sidebar.checkbox("Show Transient Analysis", False):
+                st.subheader("Approximate Transient Analysis:")
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ib'],name='Ib'), row=1, col=1)
+                fig.add_vline(x=0.501, line_width=3, line_dash="dash", line_color="red")
+                fig.add_annotation(x=0.57, y=1.989, text="Subtransient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.64, line_width=3, line_dash="dash", line_color="black")
+                fig.add_annotation(x=0.75, y=1.989, text="Transient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.85675, line_width=3, line_dash="dash", line_color="green")
+                fig.add_annotation(x=0.928, y=1.989, text="Steady State", showarrow=False, arrowhead=1)
+            else:
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ib'],name='Ib'), row=1, col=1)
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Vb'],name='Vb'), row=2, col=1)
+                
+                
             # Update xaxis properties
-            fig.update_xaxes(title_text="Volts", row=1, col=1)
-            fig.update_xaxes(title_text="Amp", row=2, col=1)
+            fig.update_xaxes(title_text="Amp", row=1, col=1)
+            fig.update_xaxes(title_text="Volts", row=2, col=1)
 
 
             # Update yaxis properties
@@ -181,13 +209,24 @@ if Side=="Data Visualizations":
                 #,subplot_titles=("Va vs Time", "Ia Vs Time")
             )
 
-            # Add traces
-            fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Vc'],name='Vc'), row=1, col=1)
-            fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ic'],name='Ic'), row=2, col=1)
-
+                        # Add traces
+            if st.sidebar.checkbox("Show Transient Analysis", False):
+                st.subheader("Approximate Transient Analysis:")
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ic'],name='Ic'), row=1, col=1)
+                fig.add_vline(x=0.501, line_width=3, line_dash="dash", line_color="red")
+                fig.add_annotation(x=0.57, y=1.989, text="Subtransient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.64, line_width=3, line_dash="dash", line_color="black")
+                fig.add_annotation(x=0.75, y=1.989, text="Transient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.85675, line_width=3, line_dash="dash", line_color="green")
+                fig.add_annotation(x=0.928, y=1.989, text="Steady State", showarrow=False, arrowhead=1)
+            else:
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ic'],name='Ic'), row=1, col=1)
+                fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Vc'],name='Vc'), row=2, col=1)
+                
+                
             # Update xaxis properties
-            fig.update_xaxes(title_text="Volts", row=1, col=1)
-            fig.update_xaxes(title_text="Amp", row=2, col=1)
+            fig.update_xaxes(title_text="Amp", row=1, col=1)
+            fig.update_xaxes(title_text="Volts", row=2, col=1)
 
 
             # Update yaxis properties
@@ -279,13 +318,23 @@ if Side=="Data Visualizations":
             )
 
             # Add traces
-            fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Va'],name='Va'), row=1, col=1)
-            fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ia'],name='Ia'), row=2, col=1)
-            fig.add_vline(x=2.5, line_width=3, line_dash="dash", line_color="red")
-
+            if st.sidebar.checkbox("Show Transient Analysis", False):
+                st.subheader("Approximate Transient Analysis:")
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ia'],name='Ia'), row=1, col=1)
+                fig.add_vline(x=0.501, line_width=3, line_dash="dash", line_color="red")
+                fig.add_annotation(x=0.57, y=1.989, text="Subtransient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.64, line_width=3, line_dash="dash", line_color="black")
+                fig.add_annotation(x=0.75, y=1.989, text="Transient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.85675, line_width=3, line_dash="dash", line_color="green")
+                fig.add_annotation(x=0.928, y=1.989, text="Steady State", showarrow=False, arrowhead=1)
+            else:
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ia'],name='Ia'), row=1, col=1)
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Va'],name='Va'), row=2, col=1)
+                
+                
             # Update xaxis properties
-            fig.update_xaxes(title_text="Volts", row=1, col=1)
-            fig.update_xaxes(title_text="Amp", row=2, col=1)
+            fig.update_xaxes(title_text="Amp", row=1, col=1)
+            fig.update_xaxes(title_text="Volts", row=2, col=1)
 
 
             # Update yaxis properties
@@ -311,12 +360,23 @@ if Side=="Data Visualizations":
             )
 
             # Add traces
-            fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Vb'],name='Vb'), row=1, col=1)
-            fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ib'],name='Ib'), row=2, col=1)
-
+            if st.sidebar.checkbox("Show Transient Analysis", False):
+                st.subheader("Approximate Transient Analysis:")
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ib'],name='Ib'), row=1, col=1)
+                fig.add_vline(x=0.501, line_width=3, line_dash="dash", line_color="red")
+                fig.add_annotation(x=0.57, y=1.989, text="Subtransient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.64, line_width=3, line_dash="dash", line_color="black")
+                fig.add_annotation(x=0.75, y=1.989, text="Transient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.85675, line_width=3, line_dash="dash", line_color="green")
+                fig.add_annotation(x=0.928, y=1.989, text="Steady State", showarrow=False, arrowhead=1)
+            else:
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ib'],name='Ib'), row=1, col=1)
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Vb'],name='Vb'), row=2, col=1)
+                
+                
             # Update xaxis properties
-            fig.update_xaxes(title_text="Volts", row=1, col=1)
-            fig.update_xaxes(title_text="Amp", row=2, col=1)
+            fig.update_xaxes(title_text="Amp", row=1, col=1)
+            fig.update_xaxes(title_text="Volts", row=2, col=1)
 
 
             # Update yaxis properties
@@ -342,12 +402,23 @@ if Side=="Data Visualizations":
             )
 
             # Add traces
-            fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Vc'],name='Vc'), row=1, col=1)
-            fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ic'],name='Ic'), row=2, col=1)
-
+            if st.sidebar.checkbox("Show Transient Analysis", False):
+                st.subheader("Approximate Transient Analysis:")
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ic'],name='Ic'), row=1, col=1)
+                fig.add_vline(x=0.501, line_width=3, line_dash="dash", line_color="red")
+                fig.add_annotation(x=0.57, y=1.989, text="Subtransient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.64, line_width=3, line_dash="dash", line_color="black")
+                fig.add_annotation(x=0.75, y=1.989, text="Transient", showarrow=False, arrowhead=1)
+                fig.add_vline(x=0.85675, line_width=3, line_dash="dash", line_color="green")
+                fig.add_annotation(x=0.928, y=1.989, text="Steady State", showarrow=False, arrowhead=1)
+            else:
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Ic'],name='Ic'), row=1, col=1)
+                fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Vc'],name='Vc'), row=2, col=1)
+                
+                
             # Update xaxis properties
-            fig.update_xaxes(title_text="Volts", row=1, col=1)
-            fig.update_xaxes(title_text="Amp", row=2, col=1)
+            fig.update_xaxes(title_text="Amp", row=1, col=1)
+            fig.update_xaxes(title_text="Volts", row=2, col=1)
 
 
             # Update yaxis properties
@@ -451,17 +522,17 @@ elif Side=='Real Time Predictions':
     Ic=st.sidebar.number_input('Ic (Amperes)')
 
     if classifier=="Light Gradient Boosting Machine":
-        model=create_model("lightgbm")
+        model=create_model('lightgbm')
         
     elif classifier=="K Neighbors Classifier":
         model=create_model("knn")
-
+        
     df=pd.DataFrame([[Va,Vb,Vc,Ia,Ib,Ic]],columns=["Va","Vb","Vc","Ia","Ib","Ic"])
     st.write("Inputs:")
     df
     if st.button ('Predict'):
         st.write("Predictions:")
-        f=predict_model(estimator=model,data=df)
+        f=predict_model(model,df)
         f
         audio_file = open('audio.ogg', 'rb')
         audio_bytes = audio_file.read()
