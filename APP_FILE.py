@@ -100,8 +100,8 @@ if Side=="Data Visualizations":
         fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ib'],name='Ib'))
         fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Ic'],name='Ic'))
         fig.update_layout(title_text="Combined Data Visualizations (Rf = 0.1 Ohms, TL Length = 300 Km)")
-        fig.update_layout(xaxis_title='3-Phase Voltages (Volts) & Currents (Amp)')
-        fig.update_layout(yaxis_title='Time')
+        fig.update_layout(yaxis_title='3-Phase Voltages (Volts) & Currents (Amp)')
+        fig.update_layout(xaxis_title='Time')
         fig.update_layout(xaxis=dict(rangeslider=dict(visible=True)))
         st.plotly_chart(fig,use_container_width=True)
     #######################################################################################################################################    
@@ -112,7 +112,7 @@ if Side=="Data Visualizations":
     #         fig.append_trace(go.Scatter(x=f['Domain'],y=f[' Va'],name='Va (Volts)'), row=1, col=1)
     #         fig.update_layout(title_text="Phase A Data Visualizations (Rf = 0.1 Ohms, TL Length = 300 Km)")
     #         fig.append_trace(go.Scatter(x=f['Domain'],y=f[' Ia'],name='Ia (Amps)'), row=2, col=1)
-    #         fig.update_layout(yaxis_title='Time')
+    #         fig.update_layout(yaxis_title='Voltage and Current')
     #         st.plotly_chart(fig,use_container_width=True) 
 
             # Initialize figure with subplots
@@ -136,14 +136,14 @@ if Side=="Data Visualizations":
                 fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Va'],name='Va'), row=2, col=1)
                 
                 
-            # Update xaxis properties
-            fig.update_xaxes(title_text="Amp", row=1, col=1)
-            fig.update_xaxes(title_text="Volts", row=2, col=1)
-
-
             # Update yaxis properties
-            fig.update_yaxes(title_text="Time", row=1, col=1)
-            fig.update_yaxes(title_text="Time", row=2, col=1)
+            fig.update_yaxes(title_text="Amp", row=1, col=1)
+            fig.update_yaxes(title_text="Volts", row=2, col=1)
+
+
+            # Update xaxis properties
+            fig.update_xaxes(title_text="Time", row=1, col=1)
+            fig.update_xaxes(title_text="Time", row=2, col=1)
 
 
             # Update title and height
@@ -180,14 +180,14 @@ if Side=="Data Visualizations":
                 fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Vb'],name='Vb'), row=2, col=1)
                 
                 
-            # Update xaxis properties
-            fig.update_xaxes(title_text="Amp", row=1, col=1)
-            fig.update_xaxes(title_text="Volts", row=2, col=1)
-
-
             # Update yaxis properties
-            fig.update_yaxes(title_text="Time", row=1, col=1)
-            fig.update_yaxes(title_text="Time", row=2, col=1)
+            fig.update_yaxes(title_text="Amp", row=1, col=1)
+            fig.update_yaxes(title_text="Volts", row=2, col=1)
+
+
+            # Update xaxis properties
+            fig.update_xaxes(title_text="Time", row=1, col=1)
+            fig.update_xaxes(title_text="Time", row=2, col=1)
 
 
             # Update title and height
@@ -223,14 +223,14 @@ if Side=="Data Visualizations":
                 fig.add_trace(go.Scatter(x=f['Domain'],y=f[' Vc'],name='Vc'), row=2, col=1)
                 
                 
-            # Update xaxis properties
-            fig.update_xaxes(title_text="Amp", row=1, col=1)
-            fig.update_xaxes(title_text="Volts", row=2, col=1)
-
-
             # Update yaxis properties
-            fig.update_yaxes(title_text="Time", row=1, col=1)
-            fig.update_yaxes(title_text="Time", row=2, col=1)
+            fig.update_yaxes(title_text="Amp", row=1, col=1)
+            fig.update_yaxes(title_text="Volts", row=2, col=1)
+
+
+            # Update xaxis properties
+            fig.update_xaxes(title_text="Time", row=1, col=1)
+            fig.update_xaxes(title_text="Time", row=2, col=1)
 
 
             # Update title and height
@@ -331,14 +331,14 @@ if Side=="Data Visualizations":
                 fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Va'],name='Va'), row=2, col=1)
                 
                 
-            # Update xaxis properties
-            fig.update_xaxes(title_text="Amp", row=1, col=1)
-            fig.update_xaxes(title_text="Volts", row=2, col=1)
-
-
             # Update yaxis properties
-            fig.update_yaxes(title_text="Time (Sec)", row=1, col=1)
-            fig.update_yaxes(title_text="Time (Sec)", row=2, col=1)
+            fig.update_yaxes(title_text="Amp", row=1, col=1)
+            fig.update_yaxes(title_text="Volts", row=2, col=1)
+
+
+            # Update xaxis properties
+            fig.update_xaxes(title_text="Time (Sec)", row=1, col=1)
+            fig.update_xaxes(title_text="Time (Sec)", row=2, col=1)
 
 
             # Update title and height
@@ -373,14 +373,14 @@ if Side=="Data Visualizations":
                 fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Vb'],name='Vb'), row=2, col=1)
                 
                 
-            # Update xaxis properties
-            fig.update_xaxes(title_text="Amp", row=1, col=1)
-            fig.update_xaxes(title_text="Volts", row=2, col=1)
-
-
             # Update yaxis properties
-            fig.update_yaxes(title_text="Time (Sec)", row=1, col=1)
-            fig.update_yaxes(title_text="Time (Sec)", row=2, col=1)
+            fig.update_yaxes(title_text="Amp", row=1, col=1)
+            fig.update_yaxes(title_text="Volts", row=2, col=1)
+
+
+            # Update xaxis properties
+            fig.update_xaxes(title_text="Time (Sec)", row=1, col=1)
+            fig.update_xaxes(title_text="Time (Sec)", row=2, col=1)
 
 
             # Update title and height
@@ -415,14 +415,14 @@ if Side=="Data Visualizations":
                 fig.add_trace(go.Scatter(x=f1['Domain'],y=f1['Vc'],name='Vc'), row=2, col=1)
                 
                 
-            # Update xaxis properties
-            fig.update_xaxes(title_text="Amp", row=1, col=1)
-            fig.update_xaxes(title_text="Volts", row=2, col=1)
-
-
             # Update yaxis properties
-            fig.update_yaxes(title_text="Time (Sec)", row=1, col=1)
-            fig.update_yaxes(title_text="Time (Sec)", row=2, col=1)
+            fig.update_yaxes(title_text="Amp", row=1, col=1)
+            fig.update_yaxes(title_text="Volts", row=2, col=1)
+
+
+            # Update xaxis properties
+            fig.update_xaxes(title_text="Time (Sec)", row=1, col=1)
+            fig.update_xaxes(title_text="Time (Sec)", row=2, col=1)
 
 
             # Update title and height
